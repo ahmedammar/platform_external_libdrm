@@ -148,6 +148,25 @@ static struct radeon_bo *bo_unref(struct radeon_bo_int *boi)
     return NULL;
 }
 
+#ifdef ANDROID
+
+extern void*  __mmap2(void*, size_t, int, int, int, size_t);
+
+#define  MMAP2_SHIFT  12
+static void* android_mmap2(void *addr, size_t size, int prot, int flags, int fd, unsigned long long offset)
+{
+   if ( offset & ((1UL << MMAP2_SHIFT)-1) ) {
+      errno = EINVAL;
+      return MAP_FAILED;
+   }
+
+   return __mmap2(addr, size, prot, flags, fd, (size_t)(offset >> MMAP2_SHIFT));
+}
+
+#define mmap(addr, size, prot, flags, fd, offset) android_mmap2(addr, size, prot, flags, fd, offset)
+
+#endif /* ANDROID */
+
 static int bo_map(struct radeon_bo_int *boi, int write)
 {
     struct radeon_bo_gem *bo_gem = (struct radeon_bo_gem*)boi;
