@@ -3,20 +3,19 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES :=				\
-	modetest.c
+	drm_pageflip_test.c
 
 LOCAL_C_INCLUDES +=				\
-	$(LOCAL_PATH)/../..			\
-	$(LOCAL_PATH)/../../intel		\
-	$(LOCAL_PATH)/../../include/drm
+	external/drm/			\
+	external/drm/include/drm
 
-LOCAL_MODULE := modetest
+LOCAL_MODULE := drm_pageflip_test
 LOCAL_MODULE_TAGS := debug
 
 LOCAL_MODULE_TAGS := optional
 
 LOCAL_SHARED_LIBRARIES :=			\
 	libdrm					\
-	libdrm_intel
+	libcutils
 
 include $(BUILD_EXECUTABLE)

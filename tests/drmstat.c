@@ -28,7 +28,7 @@
  * 
  */
 
-#include "config.h"
+//#include "config.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -252,6 +252,7 @@ int main(int argc, char **argv)
 	    offset  = strtoul(optarg, &pt, 0);
 	    size    = strtoul(pt+1, NULL, 0);
 	    handle  = 0;
+            printf("trying to call drmAddMap(offset:%x size:%x)\n",offset, size);
 	    if ((r = drmAddMap(fd, offset, size,
 			       DRM_FRAME_BUFFER, 0, &handle))) {
 		drmError(r, argv[0]);
